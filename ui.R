@@ -10,6 +10,9 @@ ui <- dashboardPage(
   )),
   dashboardBody(
     tabItems(
+      tabItem(tabName = "what", 
+              box(width = 12, title = "Mi ez a projekt")
+              ),
       tabItem(tabName = "normal",
               box(width = 8,
                   sliderInput(inputId = "normal_mean", label = "Várható érték", value = 0, min = -5, max = 5, step = .2),
