@@ -5,7 +5,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Mi ez a projekt?", tabName = "what", icon = icon("question")),
       menuItem("Centrális határeloszlás tétele", tabName = "cht", icon = icon("cubes")),
-      menuItem("Newezetes eloszlások", icon = icon("area-chart"), 
+      menuItem("Nevezetes eloszlások", icon = icon("area-chart"), 
                menuSubItem("Normális", tabName = "normal")
                )
   )),
@@ -17,9 +17,9 @@ ui <- dashboardPage(
       tabItem(tabName = "cht", 
               box(
                 width = 12,
-                  h6(
-                    "A dobások súlya úgy értendő, hogy az adott súly és az összes dobási súly összegének hányadosából kaphatjuk meg az adott értékű dobás walószínűségét.
-                       (Például: ha az összes kioszott súly 6 db és ebből 1-et kapott az 1-es dobás, akkor 1/6 a walószínűsége annak, hogy egy egyedi dobás értéke éppen 1-es.)"
+                  h3(
+                    "A dobások súlya úgy értendő, hogy az adott súly és az összes dobási súly összegének hányadosából kaphatjuk meg az adott értékű dobás valószínűségét.
+                       (Például: ha az összes kioszott súly 6 db és ebből 1-et kapott az 1-es dobás, akkor 1/6 a valószínűsége annak, hogy egy egyedi dobás értéke éppen 1-es.)"
                   ),
                 inputPanel(
                   numericInput(
@@ -73,10 +73,10 @@ ui <- dashboardPage(
               ),
       tabItem(tabName = "normal",
               box(width = 8,
-                  sliderInput(inputId = "normal_mean", label = "wárható érték", value = 0, min = -5, max = 5, step = .2),
+                  sliderInput(inputId = "normal_mean", label = "várható érték", value = 0, min = -5, max = 5, step = .2),
                   sliderInput(inputId = "normal_sd", label = "Szórás", value = 1, min = 0, max = 5, step = .1),
-                  selectInput(inputId = "normal_type", label = "Függwény:", 
-                              choices = c("Eloszlás-függwény", "Sűrűség-függwény")
+                  selectInput(inputId = "normal_type", label = "Függvény:", 
+                              choices = c("Eloszlás-függvény", "Sűrűség-függvény")
                               ),
                   plotOutput("normal_plot")
                   )
