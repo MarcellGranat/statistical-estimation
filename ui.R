@@ -6,7 +6,10 @@ ui <- dashboardPage(
       menuItem("Mi ez a projekt?", tabName = "what", icon = icon("question")),
       menuItem("Centrális határeloszlás tétele", tabName = "cht", icon = icon("cubes")),
       menuItem("Nevezetes eloszlások", icon = icon("area-chart"), 
-               menuSubItem("Normális", tabName = "normal")
+               menuSubItem("Normális", tabName = "normal"),
+               menuSubItem("T-eloszlás", tabName = "t"),
+               menuSubItem("Khi-négyzet", tabName = "chi"),
+               menuSubItem("F-eloszlás", tabName = "f")
                )
   )),
   dashboardBody(
@@ -80,7 +83,39 @@ ui <- dashboardPage(
                               ),
                   plotOutput("normal_plot")
                   )
+              ),
+      tabItem(tabName = "t", title = "Student-féle T-eloszlás",
+        box(width = 8,
+        sliderInput(inputId = "t_df", "Szabadságfok:", min = 1, value = 1, max = 120, step = 1),
+        selectInput(inputId = "t_type", label = "Függvény:", 
+                    choices = c("Eloszlás-függvény", "Sűrűség-függvény")
+        ),
+        checkboxGroupInput(inputId = "t_extra", label = "Megjelenít:",
+                           c("Normális eloszlás" = "normal",
+                             "Cauchy eloszlás" = "cauchy")
+                           ),
+        plotOutput("t_plot")
+        )
+      ),
+      tabItem(tabName = "chi", title = "Khi-négyzet eloszlás", 
+              box(width = 8,
+                  sliderInput(inputId = "chi_df", "Szabadságfok:", min = 1, value = 1, max = 30, step = 1),
+                  selectInput(inputId = "chi_type", label = "Függvény:", 
+                              choices = c("Eloszlás-függvény", "Sűrűség-függvény")),
+                              plotOutput("chi_plot")
+                  
               )
+    ),
+    tabItem(tabName = "f", title = "F-eloszlás",
+    box(
+      width = 8, title = "F-eloszlás",
+      sliderInput(inputId = "f_df1", "Szabadságfok #1:", min = 1, value = 1, max = 30, step = 1),
+      sliderInput(inputId = "f_df2", "Szabadságfok #2:", min = 1, value = 1, max = 30, step = 1),
+      selectInput(inputId = "f_type", label = "Függvény:", 
+                  choices = c("Eloszlás-függvény", "Sűrűség-függvény")),
+      plotOutput("f_plot")
+    )
     )
   )
+)
 )

@@ -1,12 +1,4 @@
 server <- function(input, output, session) {
-   output$normal_plot <- renderPlot({
-      
-      ggplot(data = data.frame(x = c(-5, 5)), aes(x = x)) + 
-         stat_function(geom = "area", fun = ifelse(input$normal_type == "Sűrűség-függvény", "dnorm", "pnorm"), 
-                       args = list(input$normal_mean, input$normal_sd), alpha = .3, color = "black") + 
-         scale_y_continuous(limits = c(0, ifelse(input$normal_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
-         labs(x = NULL, y = NULL)
-   }) 
    
    output$cube_plot <- renderPlot({
       
@@ -47,5 +39,59 @@ server <- function(input, output, session) {
          )
       
    })
+   
+   output$normal_plot <- renderPlot({
+      
+      ggplot(data = data.frame(x = c(-5, 5)), aes(x = x)) + 
+         stat_function(geom = "area", fun = ifelse(input$normal_type == "Sűrűség-függvény", "dnorm", "pnorm"), 
+                       args = list(input$normal_mean, input$normal_sd), alpha = .3, color = "black") + 
+         scale_y_continuous(limits = c(0, ifelse(input$normal_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
+         labs(x = NULL, y = NULL)
+   }) 
+   
+   output$t_plot <- renderPlot({
+      p <-  ggplot(data = data.frame(x = c(-5, 5)), aes(x = x))
+      
+      if ("normal" %in% input$t_extra) {
+         p <- p + stat_function(geom = "line", mapping = aes(color = "Standard normális eloszlás", x = x),
+                                fun = ifelse(input$t_type == "Sűrűség-függvény", "dnorm", "pnorm"), 
+                                lty = 2, size = 1.3)
+      }
+      
+      if ("cauchy" %in% input$t_extra) {
+         p <- p + stat_function(geom = "line", mapping = aes(color = "Cauchy eloszlás", x = x),
+                                fun = ifelse(input$t_type == "Sűrűség-függvény", "dcauchy", "pcauchy"),
+                                lty = 2,  size = 1.3)
+      }
+      
+      p + stat_function(geom = "area", fun = ifelse(input$t_type == "Sűrűség-függvény", "dt", "pt"), 
+                        args = list(input$t_df), alpha = .3, color = "black") + 
+         scale_y_continuous(limits = c(0, ifelse(input$t_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
+         labs(x = NULL, y = NULL) + 
+         labs(color = NULL)
+   })
+   
+   output$chi_plot <- renderPlot({
+      ggplot(data = data.frame(x = c(0, 15)), aes(x = x)) + 
+         stat_function(geom = "area", fun = ifelse(input$chi_type == "Sűrűség-függvény", "dchisq", "pchisq"), 
+                       args = list(input$chi_df), alpha = .3, color = "black") + 
+         scale_y_continuous(limits = c(0, ifelse(input$chi_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
+         labs(x = NULL, y = NULL)
+   })
+   
+   output$f_plot <- renderPlot({
+      
+      if (input$df_type == "Sűrűség-függvény") {
+         f <- function(x) stats::df(x, df1 = input$f_df1, df2 = input$f_df2)
+      } else {
+         f <- function(x) stats::pf(x, df1 = input$f_df1, df2 = input$f_df2)
+      }
+      
+      ggplot(data = data.frame(x = c(0, 15)), aes(x = x)) + 
+         stat_function(geom = "area", fun = function(x) f(x), alpha = .3, color = "black") + 
+         scale_y_continuous(limits = c(0, ifelse(input$f_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
+         labs(x = NULL, y = NULL)
+   })
+   
    
 }
