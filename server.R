@@ -84,8 +84,8 @@ server <- function(input, output, session) {
       rm(df)
       
       ggplot(data = data.frame(x = c(0, 15)), aes(x = x)) + 
-         stat_function(geom = "area", fun = df, args = list(input$df_1, input$df_2), alpha = .3, color = "black") + 
-         scale_y_continuous(limits = c(0, ifelse(input$f_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
+         stat_function(geom = "area", fun = ifelse(input$f_type == "Sűrűség-függvény", df, pf), args = list(input$f_df1, input$f_df2), alpha = .3, color = "black") + 
+         scale_y_continuous(limits = c(0, ifelse(input$f_type == "Sűrűség-függvény", 1, 1)), expand = c(0, 0)) + 
          labs(x = NULL, y = NULL)
    })
    
