@@ -81,14 +81,10 @@ server <- function(input, output, session) {
    
    output$f_plot <- renderPlot({
       
-      if (input$df_type == "Sűrűség-függvény") {
-         f <- function(x) stats::df(x, df1 = input$f_df1, df2 = input$f_df2)
-      } else {
-         f <- function(x) stats::pf(x, df1 = input$f_df1, df2 = input$f_df2)
-      }
+      rm(df)
       
       ggplot(data = data.frame(x = c(0, 15)), aes(x = x)) + 
-         stat_function(geom = "area", fun = function(x) f(x), alpha = .3, color = "black") + 
+         stat_function(geom = "area", fun = df, args = list(input$df_1, input$df_2), alpha = .3, color = "black") + 
          scale_y_continuous(limits = c(0, ifelse(input$f_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
          labs(x = NULL, y = NULL)
    })
