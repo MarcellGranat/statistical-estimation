@@ -1,12 +1,17 @@
 ui <- dashboardPage(
-  title = "Dashboard example",
-  dashboardHeader(title = "Statisztika II."),
+  title = "stat2",
+  dashboardHeader(title = "Statisztika II.",
+                  tags$li(a(href = 'https://github.com/MarcellGranat/stat2',
+                            img(src = 'corvinus_logo_HU_rgb.png',
+                                title = "Company Home", height = "30px"),
+                            style = "padding-top:10px; padding-bottom:10px;"),
+                          class = "dropdown")),
   dashboardSidebar(
     sidebarMenu(
       menuItem("Mi ez a projekt?", tabName = "what", icon = icon("question")),
       menuItem("Centrális határeloszlás tétele", tabName = "cht", icon = icon("cubes")),
       menuItem("Nevezetes eloszlások", icon = icon("area-chart"), 
-               menuSubItem("Normális", tabName = "normal"),
+               menuSubItem("Normál", tabName = "normal"),
                menuSubItem("T-eloszlás", tabName = "t"),
                menuSubItem("Khi-négyzet", tabName = "chi"),
                menuSubItem("F-eloszlás", tabName = "f")
@@ -91,7 +96,7 @@ ui <- dashboardPage(
                     choices = c("Eloszlás-függvény", "Sűrűség-függvény")
         ),
         checkboxGroupInput(inputId = "t_extra", label = "Megjelenít:",
-                           c("Normális eloszlás" = "normal",
+                           c("Normál eloszlás" = "normal",
                              "Cauchy eloszlás" = "cauchy")
                            ),
         plotOutput("t_plot")
