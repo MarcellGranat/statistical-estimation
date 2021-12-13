@@ -42,11 +42,24 @@ server <- function(input, output, session) {
    
    output$normal_plot <- renderPlot({
       
-      ggplot(data = data.frame(x = c(-5, 5)), aes(x = x)) + 
+      p <- ggplot(data = data.frame(x = c(-5, 5)), aes(x = x)) + 
          stat_function(geom = "area", fun = ifelse(input$normal_type == "Sűrűség-függvény", "dnorm", "pnorm"), 
                        args = list(input$normal_mean, input$normal_sd), alpha = .3, color = "black") + 
          scale_y_continuous(limits = c(0, ifelse(input$normal_type == "Sűrűség-függvény", .6, 1)), expand = c(0, 0)) + 
          labs(x = NULL, y = NULL)
+      if (input$confint) {
+            x <- qnorm(p = c(0.025, 0.975), mean = input$normal_mean, sd = input$normal_sd)
+         if (input$normal_type == "Sűrűség-függvény") {
+            p + geom_vline(xintercept = x, size = 1.2, color = "red4") + 
+               geom_text(aes(x = input$normal_mean, y = dnorm(input$normal_mean, input$normal_mean, input$normal_sd) / 2) , label = "95%", color = "red4", size = 10)
+         } else {
+            p + geom_vline(xintercept = x, size = 1.2, color = "red4") + 
+               geom_text(aes(x = input$normal_mean, y = pnorm(input$normal_mean, input$normal_mean, input$normal_sd) / 2) , label = "95%", color = "red4", size = 10)
+         }
+      } else {
+         p
+      }
+      
    }) 
    
    output$t_plot <- renderPlot({

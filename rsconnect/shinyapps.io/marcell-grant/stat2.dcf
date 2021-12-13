@@ -1,0 +1,14 @@
+name: stat2
+title: stat2
+username:
+account: marcell-grant
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4637192
+bundleId: 5025572
+url: https://marcell-grant.shinyapps.io/stat2/
+when: 1631480094.44809
+lastSyncTime: 1631480094.44809
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|README.md

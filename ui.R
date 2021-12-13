@@ -7,6 +7,8 @@ ui <- dashboardPage(
                             style = "padding-top:10px; padding-bottom:10px;"),
                           class = "dropdown")),
   dashboardSidebar(
+    shinyWidgets::materialSwitch(inputId = "confint", label = "Konfidencia intervallum", 
+                   value = F, status = "info"),
     sidebarMenu(
       menuItem("Mi ez a projekt?", tabName = "what", icon = icon("question")),
       menuItem("Centrális határeloszlás tétele", tabName = "cht", icon = icon("cubes")),
